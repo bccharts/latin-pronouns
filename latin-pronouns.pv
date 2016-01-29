@@ -1,0 +1,207 @@
+import re
+import yaml
+
+with open("data.yaml", "r") as f:
+    data = yaml.load(f.read())
+
+# 8.5x11"
+page_width = 792
+page_height = 612
+size(page_width, page_height)
+margin = 50
+
+# Font sizes
+heading_size = 7
+group_header_size = 9
+word_size = 12
+side_heading_size = 9
+side_heading_offset = 16
+
+default_color = '#a74ed5'
+colors = {
+    'm': '#156eb4',
+    'f': '#d61d67',
+    'n': '#81ac00',
+}
+
+font("Minion", size=11)
+background(1)
+
+stylesheet("ending", weight="bold", fill=default_color)
+    
+# Swap out [ending] for <ending>ending</ending>
+def style_line(l):
+    text_line = re.sub(r"\{(.*?)\}", r"<stem>\1</stem>", l)
+    text_line = re.sub(r"\[(.*?)\]", r"<ending>\1</ending>", text_line)
+    return "<w>%s</w>" % text_line
+    
+    
+# Parse a pipe-separated list
+def parse_list(groups):
+    response = []
+
+    for l in groups:
+        data = l.split('|')
+        
+        group = {
+            'title': data[0].strip(),
+            'subtitle': data[1].strip(),
+            'items': [x.strip() for x in data[2:]],
+        }
+        
+        response.append(group)
+    
+    return response
+    
+
+# Draw the group header ("1st Person", etc.)    
+def draw_group_header(x, y, title, width):
+    push()
+    translate(x, y)
+    
+    # Top rule
+    nofill()
+    pen(0.25)
+    stroke(0.5)
+    line(0, -12, width, -12)
+
+    # Group title
+    font("Museo Sans", size=group_header_size, tracking=15)
+    fill(0.1)
+    text(group['title'].upper(), 0, 0)
+    font(tracking=0)
+    
+    pop()
+
+
+# Draw the side headings    
+def draw_side_headings(x, y, headings):
+    push()
+    
+    translate(x, y + data['subtitle_spacing'] - 1.5)
+    
+    font("Minion", size=heading_size, sc=True)
+    fill(0.65)
+    
+    for heading in headings:
+        text(heading, 0, 0)
+        
+        # Line spacing
+        translate(0, data['side_heading_spacing'])
+
+    fill(0)
+    font(sc=False)    
+    
+    pop()
+
+
+# Draw an individual column
+def draw_column(x, y, column):
+    push()
+    translate(x, y)
+    
+    font(tracking=-8)
+    fill(0.65)
+    if 'subtitle' in column and column['subtitle'] != '':
+        fill_color = colors[column['subtitle']]
+    else:
+        fill_color = default_color
+    stylesheet("ending", weight="bold", fill=fill_color)
+    
+    # Draw the title
+    if 'title' in column and column['title'] != '':
+        font("Minion", size=heading_size, sc=True)
+        text(column['title'])
+        
+    # Draw the subtitle
+    if 'subtitle' in column and column['subtitle'] != '':
+        translate(0, data['title_spacing'])
+        font("Minion", size=heading_size - 1, sc=True)
+        text(column['subtitle'])
+        
+    translate(0, data['subtitle_spacing'])
+    
+    fill(0)
+    
+    # Draw the words
+    font("Minion", size=word_size, sc=False)
+    for item in column['items']:
+        text(0, 0, xml=style_line(item))
+        translate(0, data['line_spacing'])
+    
+    font(tracking=0)
+    pop()
+    
+    
+# Draw a side
+
+def draw_side(base_x, base_y, group):
+    # Width of group
+    if 'width' in group:
+        width = data['half_width']
+    else:
+        width = data['width']
+        
+    # Draw the group header
+    draw_group_header(base_x, base_y, group['title'], width)
+    
+    # Draw the side headings
+    side_top = base_y + 20
+    if 'side_top' in group:
+        side_top += group['side_top']
+    draw_side_headings(base_x, side_top, [x.strip() for x in data['headings'][group['heading']].split("|")])
+    
+    # Draw the individual columns
+    col_x = base_x + data['side_heading_offset']
+    for index, column in enumerate(parse_list(group['data'])):
+        if 'title' in column and column['title'] == 'plural' and column['subtitle'] != '':
+            # Space plurals out
+            col_x += data['plural_spacing']
+            
+        draw_column(col_x, base_y + 20, column)
+        col_x += data['column_spacing']
+
+
+
+# Heading
+font("Museo Sans", size=14, tracking=15)
+text("Latin {}".format(data['label']).upper(), margin, margin + 10)
+
+# Heading metadata
+align(RIGHT)
+font("Minion", size=9, italic=True, tracking=0)
+stroke(0)
+fill(0.5)
+text("bencrowder.net • Last modified {}".format(data['updated']), page_width-margin, margin + 10)
+font(italic=False)
+
+align(LEFT)
+pen(0.5)
+
+
+# Draw left side
+
+base_y = margin + 50
+for index, row in enumerate(data['left_rows']):
+    base_x = margin
+    for group in row['groups']:
+        draw_side(base_x, base_y, group)
+        
+        base_x += data['group_spacing_x']
+        
+    base_y += data['group_spacing_y']
+    
+# Draw right side
+
+base_y = margin + 50
+for index, row in enumerate(data['right_rows']):
+    base_x = 420
+    for group in row['groups']:
+        draw_side(base_x, base_y, group)
+        
+        base_x += data['group_spacing_x']
+        
+    base_y += data['group_spacing_y']
+
+
+export(data['output'])

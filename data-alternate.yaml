@@ -1,0 +1,94 @@
+label: Pronouns
+output: latin-pronouns-alternate.pdf
+updated: 8 October 2015
+
+group_spacing_y: 170
+group_spacing_x: 183
+column_spacing: 46
+plural_spacing: 15
+
+line_spacing: 16
+side_heading_offset: 30
+side_heading_spacing: 16
+
+title_spacing: 10
+subtitle_spacing: 20
+
+width: 320
+half_width: 120
+
+headings:
+  default: "nom | acc | gen | dat | abl"
+
+left_rows:
+  - groups:
+    - title: 1st Person
+      heading: default
+      width: .5
+      side_top: 0
+      data:
+        - "singular | | [ego] | m[ē] | m[eī] | m[ihi] | m[ē]"
+        - "plural   | | n[ōs] | n[ōs] | n[ostrum] | n[ōbīs] | n[ōbīs]"
+    - title: 2nd Person
+      heading: default
+      width: .5
+      side_top: 0
+      data:
+        - "singular | | t[ū] | t[ē] | t[uī] | t[ibi] | t[ē]"
+        - "plural   | | v[ōs] | v[ōs] | v[estrum] | v[ōbīs] | v[ōbīs]"
+  - groups:
+    - title: ille, illa, illud
+      heading: default
+      side_top: 10
+      data:
+        - "singular | m | ill[e] | ill[um] | ill[īus] | ill[ī] | ill[ō]"
+        - "         | f | ill[a] | ill[am] | ill[īus] | ill[ī] | ill[ā]"
+        - "         | n | ill[ud] | ill[ud] | ill[īus] | ill[ī] | ill[ō]"
+        - "plural   | m | ill[ī] | ill[ōs] | ill[ōrum] | ill[īs] | ill[īs]"
+        - "         | f | ill[ae] | ill[ās] | ill[ārum] | ill[īs] | ill[īs]"
+        - "         | n | ill[a] | ill[a] | ill[ōrum] | ill[īs] | ill[īs]"
+  - groups:
+    - title: iste, ista, istud
+      heading: default
+      side_top: 10
+      data:
+        - "singular | m | ist[e] | ist[um] | ist[īus] | ist[ī] | ist[ō]"
+        - "         | f | ist[a] | ist[am] | ist[īus] | ist[ī] | ist[ā]"
+        - "         | n | ist[ud] | ist[ud] | ist[īus] | ist[ī] | ist[ō]"
+        - "plural   | m | ist[ī] | ist[ōs] | ist[ōrum] | ist[īs] | ist[īs]"
+        - "         | f | ist[ae] | ist[ās] | ist[ārum] | ist[īs] | ist[īs]"
+        - "         | n | ist[a] | ist[a] | ist[ōrum] | ist[īs] | ist[īs]"
+right_rows:
+  - groups:
+    - title: is, ea, id
+      side_top: 10
+      heading: default
+      data:
+        - "singular | m | [is] | e[um] | e[ius] | e[ī] | e[ō]"
+        - "         | f | e[a] | e[am] | e[ius] | e[ī] | e[ā]"
+        - "         | n | [id] | [id] | e[ius] | e[ī] | e[ō]"
+        - "plural   | m | e[ī] | e[ōs] | e[ōrum] | e[īs] | e[īs]"
+        - "         | f | e[ae] | e[ās] | e[ārum] | e[īs] | e[īs]"
+        - "         | n | e[a] | e[a] | e[ōrum] | e[īs] | e[īs]"
+  - groups:
+    - title: hic, haec, hoc
+      heading: default
+      side_top: 10
+      data:
+        - "singular | m | h[ic] | h[unc] | h[uius] | h[uic] | h[ōc]"
+        - "         | f | h[aec] | h[anc] | h[uius] | h[uic] | h[āc]"
+        - "         | n | h[oc] | h[oc] | h[uius] | h[uic] | h[ōc]"
+        - "plural   | m | h[ī] | h[ōs] | h[ōrum] | h[īs] | h[īs]"
+        - "         | f | h[ae] | h[ās] | h[ārum] | h[īs] | h[īs]"
+        - "         | n | h[aec] | h[aec] | h[ōrum] | h[īs] | h[īs]"
+  - groups:
+    - title: qui, quae, quod
+      heading: default
+      side_top: 10
+      data:
+        - "singular | m | qu[ī] | qu[em] | cu[ius] | cu[i] | qu[ō]"
+        - "         | f | qu[ae] | qu[am] | cu[ius] | cu[i] | qu[ā]"
+        - "         | n | qu[od] | qu[od] | cu[ius] | cu[i] | qu[ō]"
+        - "plural   | m | qu[ī] | qu[ōs] | qu[ōrum] | qu[ibus] | qu[ibus]"
+        - "         | f | qu[ae] | qu[ās] | qu[ārum] | qu[ibus] | qu[ibus]"
+        - "         | n | qu[ae] | qu[ae] | qu[ōrum] | qu[ibus] | qu[ibus]"
